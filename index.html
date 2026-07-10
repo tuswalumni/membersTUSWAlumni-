@@ -1,27 +1,240 @@
 <!DOCTYPE html>
-<html lang="th">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบสมาชิกสมาคมนักศึกษาเก่าสังคมสงเคราะห์ศาสตร์ มธ.</title><link rel="icon" type="image/png" href="https://img5.pic.in.th/file/secure-sv1/cropped_circle_image09cc9731529109e7.png">
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
-        }
-        iframe {
-            display: block;
-            width: 100%;
-            height: 100vh;
-            border: none;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>สมาคมนักศึกษาเก่าสังคมสงเคราะห์ศาสตร์ มธ.</title><link rel="icon" type="image/png" href="https://img5.pic.in.th/file/secure-sv1/cropped_circle_image09cc9731529109e7.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Sarabun', sans-serif; background-color: #f8fafc; }
+    .hidden { display: none; }
+    .required-star::after { content: " *"; color: #ef4444; }
+  </style>
 </head>
-<body>
-    <iframe src="https://script.google.com/macros/s/AKfycbwBqeqG9yu5y-PCKjr5hbgevTuKVjS9oDNbDFCbhxwvj4GX4jDSNEk9tKyOh3qw-J2h/exec" 
-            allowfullscreen>
-    </iframe>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+
+  <!-- Navbar -->
+  <nav class="bg-red-800 text-white shadow-lg sticky top-0 z-50">
+    <div class="container mx-auto px-4">
+      <div class="flex justify-between items-center h-20">
+        <a href="https://members.tuswalumni.com/" class="flex items-center space-x-3 cursor-pointer">
+          <img src="https://img2.pic.in.th/cropped_circle_image4abd3ce094449065.png" class="w-12 h-12 bg-white rounded-full p-0.5 shadow-md">
+          <div class="leading-tight">
+            <p class="font-bold text-lg hidden md:block uppercase tracking-tight">สมาคมนักศึกษาเก่าสังคมสงเคราะห์ศาสตร์ มธ.</p>
+          </div>
+        </a>
+        <div class="flex space-x-1 md:space-x-2 overflow-x-auto pb-2 md:pb-0">
+          <a href="https://members.tuswalumni.com/" id="nav-reg" class="flex-shrink-0 px-4 py-2 rounded-lg font-bold transition-all text-sm">หน้าสมัครสมาชิก</a>
+          <a href="https://members.tuswalumni.com/?page=objection" id="nav-obj" class="flex-shrink-0 px-4 py-2 rounded-lg text-red-100 hover:bg-red-700 hover:text-white font-bold transition-all text-sm">ประกาศรายชื่อ</a>
+          <a href="https://members.tuswalumni.com/payment/" class="flex-shrink-0 px-4 py-2 rounded-lg text-red-100 hover:bg-red-700 hover:text-white font-bold transition-all text-sm">แจ้งชำระเงิน</a>
+          <a href="https://members.tuswalumni.com/memberinfo/" class="flex-shrink-0 px-4 py-2 rounded-lg text-red-100 hover:bg-red-700 hover:text-white font-bold transition-all text-sm">ข้อมูลสมาชิก</a>
+          <a href="https://members.tuswalumni.com/renew/" class="flex-shrink-0 px-4 py-2 rounded-lg text-red-100 hover:bg-red-700 hover:text-white font-bold transition-all text-sm">ต่ออายุ</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="flex-grow container mx-auto px-4 py-8 max-w-4xl">
+    
+    <!-- หน้าสมัครสมาชิก -->
+    <div id="page-registration" class="max-w-5xl mx-auto">
+      <div class="text-center mb-12">
+        <h1 class="text-4xl font-extrabold text-red-800 uppercase">แบบฟอร์มสมัครสมาชิก</h1>
+        <div class="h-1.5 w-24 bg-yellow-500 mx-auto mt-3 rounded-full shadow-sm"></div>
+      </div>
+      <form id="memberForm" class="space-y-10" onsubmit="handleFormSubmit(event, this)">
+        <!-- 01 ประเภท -->
+        <div class="bg-white shadow-xl rounded-[2rem] overflow-hidden border border-slate-200">
+          <div class="bg-red-800 px-8 py-5 flex items-center gap-3"><h2 class="text-white font-black uppercase">01. เลือกประเภทสมาชิก</h2></div>
+          <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <label class="flex items-center p-6 bg-white border-2 border-slate-100 rounded-2xl cursor-pointer">
+              <input type="radio" name="memberType" value="สามัญ" required class="w-6 h-6">
+              <div class="ml-4"><span class="block font-black">สมาชิกสามัญ</span><span class="text-red-700 font-bold">300 บาท (ตลอดชีพ)</span></div>
+            </label>
+            <label class="flex items-center p-6 bg-white border-2 border-slate-100 rounded-2xl cursor-pointer">
+              <input type="radio" name="memberType" value="สมทบ" class="w-6 h-6">
+              <div class="ml-4"><span class="block font-black">สมาชิกสมทบ</span><span class="text-blue-700 font-bold">100 บาท (รายปี)</span></div>
+            </label>
+          </div>
+        </div>
+
+        <!-- 02 ข้อมูลพื้นฐาน -->
+        <div class="bg-white shadow-xl rounded-[2rem] overflow-hidden border border-slate-200">
+          <div class="bg-slate-800 px-8 py-5 flex items-center gap-3"><h2 class="text-white font-black uppercase">02. ข้อมูลส่วนตัว</h2></div>
+          <div class="p-8 space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-6 gap-6">
+              <div class="col-span-1"><label class="block font-bold text-sm required-star">คำนำหน้า</label><select name="title" class="w-full p-3 border-2 rounded-xl"><option value="นาย">นาย</option><option value="นาง">นาง</option><option value="นางสาว">นางสาว</option></select></div>
+              <div class="col-span-2"><label class="block font-bold text-sm required-star">ชื่อจริง</label><input type="text" name="fname" required class="w-full p-3 border-2 rounded-xl"></div>
+              <div class="col-span-3"><label class="block font-bold text-sm required-star">นามสกุล</label><input type="text" name="lname" required class="w-full p-3 border-2 rounded-xl"></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div><label class="block font-bold text-sm required-star">วัน/เดือน/ปีเกิด</label><input type="date" name="dob" required class="w-full p-3 border-2 rounded-xl"></div>
+              <div><label class="block font-bold text-sm required-star">เลขบัตรประชาชน</label><input type="text" name="idCard" maxlength="13" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required class="w-full p-3 border-2 border-yellow-200 bg-yellow-50 rounded-xl"></div>
+              <div><label class="block font-bold text-sm">ชื่อเล่น</label><input type="text" name="nname" class="w-full p-3 border-2 rounded-xl"></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div><label class="block font-bold text-sm required-star">เบอร์โทรศัพท์</label><input type="tel" name="phone" maxlength="10" required class="w-full p-3 border-2 rounded-xl"></div>
+              <div><label class="block font-bold text-sm required-star">อีเมล</label><input type="email" name="email" required class="w-full p-3 border-2 rounded-xl"></div>
+            </div>
+            
+            <div class="pt-4 border-t"><label class="block font-bold text-sm mb-2 required-star">ที่อยู่สำหรับติดต่อ</label>
+              <input type="text" name="addr_main" placeholder="บ้านเลขที่, ถนน..." required class="w-full p-3 border-2 rounded-xl mb-4">
+              <div class="grid grid-cols-2 gap-4 mb-4">
+                <select id="addr_province" name="addr_province" onchange="updateAmphure()" required class="w-full p-3 border-2 rounded-xl"><option value="">เลือกจังหวัด</option></select>
+                <select id="addr_amphure" name="addr_district" onchange="updateTambon()" required disabled class="w-full p-3 border-2 rounded-xl"><option value="">เลือกอำเภอ</option></select>
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <select id="addr_tambon" name="addr_subdistrict" onchange="updateZipcode()" required disabled class="w-full p-3 border-2 rounded-xl"><option value="">เลือกตำบล</option></select>
+                <input type="text" id="addr_zipcode" name="addr_zipcode" readonly class="w-full p-3 border-2 bg-slate-100 rounded-xl">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 03 ประวัติการศึกษา -->
+        <div class="bg-white shadow-xl rounded-[2rem] overflow-hidden border border-slate-200">
+          <div class="bg-red-900 px-8 py-5"><h2 class="text-white font-black uppercase">03. ประวัติการศึกษา</h2></div>
+          <div class="p-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div><label class="block font-bold text-sm">รหัสนศ. (ป.ตรี)</label><input type="text" name="idBachelor" class="w-full p-3 border rounded-xl"></div>
+            <div><label class="block font-bold text-sm">รหัสนศ. (ป.โท)</label><input type="text" name="idMaster" class="w-full p-3 border rounded-xl"></div>
+            <div><label class="block font-bold text-sm">รหัสนศ. (ป.เอก)</label><input type="text" name="idPhD" class="w-full p-3 border rounded-xl"></div>
+          </div>
+        </div>
+
+        <!-- 04 อาชีพ -->
+        <div class="bg-white shadow-xl rounded-[2rem] overflow-hidden border border-slate-200">
+          <div class="bg-slate-700 px-8 py-5"><h2 class="text-white font-black uppercase">04. อาชีพและตำแหน่ง</h2></div>
+          <div class="p-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <input type="text" name="job" placeholder="อาชีพ" required class="w-full p-3 border-2 rounded-xl">
+            <input type="text" name="position" placeholder="ตำแหน่ง" required class="w-full p-3 border-2 rounded-xl">
+            <input type="text" name="workplace" placeholder="สถานที่ทำงาน" required class="w-full p-3 border-2 rounded-xl">
+          </div>
+        </div>
+
+        <!-- 05 รับรอง -->
+        <div class="bg-white shadow-xl rounded-[2rem] overflow-hidden border-2 border-amber-200">
+          <div class="bg-amber-500 px-8 py-5"><h2 class="text-white font-black uppercase">05. ผู้รับรองการสมัคร</h2></div>
+          <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-6 bg-amber-50">
+            <input type="text" name="endorser_id" placeholder="รหัสสมาชิก (ORD-XXX)" required class="w-full p-3 border-2 border-amber-300 rounded-xl">
+            <input type="text" name="endorser" placeholder="ชื่อ-นามสกุล ผู้รับรอง" required class="w-full p-3 border-2 border-amber-300 rounded-xl">
+          </div>
+        </div>
+
+        <div class="flex items-center p-4 bg-slate-50 rounded-xl">
+          <input id="pdpaConsent" type="checkbox" required class="w-5 h-5 cursor-pointer">
+          <label class="ml-3 text-sm font-medium">ข้าพเจ้ายอมรับนโยบายความเป็นส่วนตัวและ PDPA</label>
+        </div>
+
+        <button type="submit" class="w-full bg-red-700 text-white font-black py-6 rounded-full text-xl shadow-xl hover:bg-red-800">ส่งใบสมัคร</button>
+      </form>
+    </div>
+
+    <!-- หน้าประกาศรายชื่อ -->
+    <div id="page-objection" class="hidden">
+      <h1 class="text-3xl font-bold text-center text-yellow-600 mb-8 uppercase">ประกาศรายชื่อผู้สมัครสมาชิก</h1>
+      <div class="bg-white shadow-xl rounded-[2rem] p-6 overflow-x-auto">
+        <table class="w-full text-left border-separate border-spacing-y-2">
+          <thead class="bg-slate-100"><tr><th class="p-4">ลำดับ</th><th class="p-4">ชื่อ-นามสกุล</th><th class="p-4">ประเภท</th><th class="p-4">การศึกษา</th><th class="p-4">วันครบกำหนด</th><th class="p-4 text-center">จัดการ</th></tr></thead>
+          <tbody id="objectionTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbwBqeqG9yu5y-PCKjr5hbgevTuKVjS9oDNbDFCbhxwvj4GX4jDSNEk9tKyOh3qw-J2h/exec";
+    async function callAPI(action, payload = {}) {
+      const response = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action, payload }) });
+      const data = await response.json();
+      if (!data.success && data.status !== "success") throw new Error(data.message);
+      return data;
+    }
+
+    let allDistricts = [], allSubDistricts = [];
+
+    window.onload = async () => {
+      lucide.createIcons();
+      loadAddressData();
+      
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('page') === 'objection') {
+        document.getElementById('page-registration').classList.add('hidden');
+        document.getElementById('page-objection').classList.remove('hidden');
+        document.getElementById('nav-reg').classList.replace('bg-red-700', 'text-red-100');
+        document.getElementById('nav-obj').classList.replace('text-red-100', 'bg-red-700');
+        document.getElementById('nav-obj').classList.add('text-white');
+        loadPendingMembers();
+      } else {
+        document.getElementById('nav-reg').classList.add('bg-red-700', 'text-white');
+      }
+    };
+
+    async function loadAddressData() {
+      const [rP, rD, rS] = await Promise.all([
+        fetch('https://raw.githubusercontent.com/kongvut/thai-province-data/master/api/latest/province.json'),
+        fetch('https://raw.githubusercontent.com/kongvut/thai-province-data/master/api/latest/district.json'),
+        fetch('https://raw.githubusercontent.com/kongvut/thai-province-data/master/api/latest/sub_district.json')
+      ]);
+      const provs = await rP.json(); allDistricts = await rD.json(); allSubDistricts = await rS.json();
+      const pSel = document.getElementById('addr_province');
+      provs.sort((a,b)=>a.name_th.localeCompare(b.name_th)).forEach(p => { pSel.add(new Option(p.name_th, p.name_th)); pSel.lastChild.dataset.id = p.id; });
+    }
+
+    function updateAmphure() {
+      const pId = document.getElementById('addr_province').options[document.getElementById('addr_province').selectedIndex].dataset.id;
+      const aSel = document.getElementById('addr_amphure'); aSel.innerHTML = '<option value="">เลือกอำเภอ</option>'; aSel.disabled = !pId;
+      allDistricts.filter(d => d.province_id == pId).forEach(d => { aSel.add(new Option(d.name_th, d.name_th)); aSel.lastChild.dataset.id = d.id; });
+    }
+    function updateTambon() {
+      const dId = document.getElementById('addr_amphure').options[document.getElementById('addr_amphure').selectedIndex].dataset.id;
+      const tSel = document.getElementById('addr_tambon'); tSel.innerHTML = '<option value="">เลือกตำบล</option>'; tSel.disabled = !dId;
+      allSubDistricts.filter(s => s.amphure_id == dId || s.district_id == dId).forEach(s => { tSel.add(new Option(s.name_th, s.name_th)); tSel.lastChild.dataset.zip = s.zip_code; });
+    }
+    function updateZipcode() {
+      document.getElementById('addr_zipcode').value = document.getElementById('addr_tambon').options[document.getElementById('addr_tambon').selectedIndex]?.dataset.zip || '';
+    }
+
+    async function handleFormSubmit(e, form) {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form));
+      if(!data.idBachelor && !data.idMaster && !data.idPhD) return Swal.fire('เตือน', 'กรุณาระบุรหัสนักศึกษาอย่างน้อย 1 ระดับ', 'warning');
+      data.address = `${data.addr_main} ต.${data.addr_subdistrict} อ.${data.addr_district} จ.${data.addr_province} ${data.addr_zipcode}`;
+      
+      Swal.fire({ title: 'กำลังส่งข้อมูล...', didOpen: () => Swal.showLoading() });
+      try {
+        const res = await callAPI('processForm', data);
+        Swal.fire('สำเร็จ', res.message, 'success').then(() => form.reset());
+      } catch (err) { Swal.fire('ผิดพลาด', err.message, 'error'); }
+    }
+
+    async function loadPendingMembers() {
+      const tbody = document.getElementById('objectionTableBody');
+      tbody.innerHTML = '<tr><td colspan="6" class="text-center py-8">กำลังดึงข้อมูล...</td></tr>';
+      try {
+        const res = await callAPI('getPendingMembers');
+        if(!res.data.length) return tbody.innerHTML = '<tr><td colspan="6" class="text-center py-8 text-slate-500">ไม่มีรายชื่อรอประกาศ</td></tr>';
+        tbody.innerHTML = res.data.map((m, i) => `
+          <tr class="bg-white"><td class="p-4 text-center">${i+1}</td><td class="p-4 font-bold">${m.fullName}</td>
+          <td class="p-4 text-center"><span class="px-2 py-1 bg-slate-100 rounded text-xs">${m.memberType}</span></td>
+          <td class="p-4 text-sm">${m.education}</td><td class="p-4 text-center text-red-600 font-bold">${m.endDate}</td>
+          <td class="p-4 text-center"><button onclick="handleObj('${m.sheetName}', ${m.rowId})" class="text-red-500 border border-red-500 px-3 py-1 rounded-lg text-xs font-bold hover:bg-red-50">คัดค้าน</button></td></tr>
+        `).join('');
+      } catch (err) { tbody.innerHTML = `<tr><td colspan="6" class="text-center py-8 text-red-500">${err.message}</td></tr>`; }
+    }
+
+    async function handleObj(sheetName, rowId) {
+      const { value: formValues } = await Swal.fire({ title: 'คัดค้านคุณสมบัติ', html: `<input id="o-name" class="swal2-input" placeholder="ชื่อผู้คัดค้าน"><textarea id="o-reason" class="swal2-textarea" placeholder="เหตุผล"></textarea>`, preConfirm: () => ({ name: document.getElementById('o-name').value, reason: document.getElementById('o-reason').value }) });
+      if(formValues && formValues.name && formValues.reason) {
+        Swal.fire({ title: 'กำลังบันทึก...', didOpen: () => Swal.showLoading() });
+        try {
+          await callAPI('submitObjection', { sheetName, rowId, objectorName: formValues.name, objectionReason: formValues.reason });
+          Swal.fire('สำเร็จ', 'ส่งเรื่องเรียบร้อย', 'success'); loadPendingMembers();
+        } catch(e) { Swal.fire('Error', e.message, 'error'); }
+      }
+    }
+  </script>
 </body>
 </html>
